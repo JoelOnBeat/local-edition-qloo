@@ -104,8 +104,6 @@ export function SiteFooter({ cta = true }: { cta?: boolean }) {
             <FooterLink href="/#how-it-works">How it works</FooterLink>
             <FooterLink href="/#edition">The edition</FooterLink>
             <FooterLink href="/#integrations">Integrations</FooterLink>
-            <FooterLink href="/proof">Proof</FooterLink>
-            <FooterLink href="/limits">Limits</FooterLink>
           </ul>
         </nav>
         <nav aria-label="Legal">

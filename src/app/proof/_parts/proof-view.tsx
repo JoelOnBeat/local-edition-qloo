@@ -32,7 +32,7 @@ export function ProofView() {
   if (q.error || !q.data) {
     return (
       <div data-testid="proof-error">
-        <CardBand title="Proof" flush><ErrorState message={q.error?.message ?? "The proof did not load."} onRetry={q.reload} /></CardBand>
+        <CardBand title="Model checks" flush><ErrorState message={q.error?.message ?? "The proof did not load."} onRetry={q.reload} /></CardBand>
       </div>
     );
   }

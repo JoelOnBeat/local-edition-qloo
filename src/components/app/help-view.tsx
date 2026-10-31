@@ -33,7 +33,7 @@ const QA: { q: string; a: ReactNode }[] = [
   },
   {
     q: "Does it cost anything?",
-    a: <>No. There is no plan and no payment. Model spend, Qloo and Tavily calls each have a hard cap, listed on <Link href="/app/limits">Limits</Link>.</>,
+    a: <>No. There is no plan and no payment.</>,
   },
   {
     q: "Is Kettle & Kiln a real chain?",

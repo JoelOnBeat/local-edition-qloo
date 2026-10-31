@@ -1,10 +1,8 @@
-import Link from "next/link";
 import type { ReactNode } from "react";
 import { BrandGlyph, Chip, SampleBadge, StoreTile, type Brand } from "@/components/ui";
 import type { LandingFeatured } from "@/server/landing/types";
 import { MEASURED } from "./landing-data";
 import { SamplePending } from "./landing-pending";
-import { Icon } from "./section";
 
 function FeatureCard({ preview, title, body }: { preview: ReactNode; title: string; body: ReactNode }) {
   return (
@@ -98,7 +96,7 @@ export function LandingCards({ featured }: { featured: LandingFeatured | null })
       <FeatureCard
         preview={<ProofPreview />}
         title="Guardrails you can audit"
-        body={<>NeMo Guardrails on a Nebius job, recorded {MEASURED.date}. <Link href="/proof" className="inline-flex items-center gap-0.5 font-medium text-ink underline decoration-stone-300 underline-offset-[3px] hover:decoration-accent">See the proof<span className="size-3.5">{Icon.arrowUpRight}</span></Link></>}
+        body={<>NeMo Guardrails on a Nebius job, recorded {MEASURED.date}.</>}
       />
     </div>
   );

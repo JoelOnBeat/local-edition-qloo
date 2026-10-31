@@ -28,10 +28,9 @@ const GROUPS: { label: string; items: NavItem[] }[] = [
     ],
   },
   {
-    label: "Proof",
+    label: "Quality",
     items: [
-      { href: "/app/proof", label: "Proof", id: "proof", icon: "shield", match: (p) => p.startsWith("/app/proof") },
-      { href: "/app/limits", label: "Limits", id: "limits", icon: "gauge", match: (p) => p.startsWith("/app/limits") },
+      { href: "/app/proof", label: "Model checks", id: "proof", icon: "shield", match: (p) => p.startsWith("/app/proof") },
     ],
   },
   {

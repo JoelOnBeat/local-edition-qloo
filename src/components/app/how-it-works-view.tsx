@@ -69,10 +69,9 @@ export function HowItWorksView() {
             </li>
           ))}
         </ol>
-        <div className="mt-3 grid gap-3 md:grid-cols-3">
+        <div className="mt-3 grid gap-3 md:grid-cols-2">
           <Fact icon="shield" title="Checked twice" body="Live checks on every build and edit; NeMo Guardrails certifies items in a Nebius job started on demand." href="/app/proof" />
           <Fact icon="file" title="Evidence on every line" body="Open “Why this?” on any item to see the Qloo and Tavily calls behind it." href="/app" />
-          <Fact icon="gauge" title="Hard caps" body="Model spend, Qloo and Tavily calls each stop at a cap, with a plain message." href="/app/limits" />
         </div>
       </Band>
     </Page>

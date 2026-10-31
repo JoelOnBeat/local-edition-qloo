@@ -117,10 +117,9 @@ export function SettingsView() {
               )}
             </Row>
 
-            <Row title="Spend and proof" sub="What a build costs, where it stops, and what ran.">
+            <Row title="Model checks" sub="The model behind each step and what the guardrails caught.">
               <div className="grid gap-2 sm:grid-cols-2">
-                <LinkTile href="/limits" icon="gauge" title="Limits and spend" desc="Model budget, Qloo and Tavily caps, rate limits." />
-                <LinkTile href="/proof" icon="shield" title="Proof" desc="The model behind each step and the guardrail eval." />
+                <LinkTile href="/proof" icon="shield" title="Model checks" desc="The model behind each step and the guardrail eval." />
               </div>
             </Row>
           </article>

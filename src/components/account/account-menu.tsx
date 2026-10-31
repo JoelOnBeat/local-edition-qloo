@@ -76,7 +76,6 @@ export function AccountMenu({ variant = "menu" }: { variant?: "menu" | "inline" 
             <MenuDivider />
             <MenuItem href="/app/settings" onClick={close}><Icon name="settings" className="text-faint" />Settings</MenuItem>
             <MenuItem href="/onboarding" onClick={close}><Icon name="list" className="text-faint" />Setup checklist</MenuItem>
-            <MenuItem href="/limits" onClick={close}><Icon name="gauge" className="text-faint" />Limits and spend</MenuItem>
             <MenuDivider />
             <MenuItem testId="account-signout" onClick={() => void actions.signOut()}>
               <Icon name="logout" className="text-faint" />

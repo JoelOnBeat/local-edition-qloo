@@ -1,8 +1,7 @@
 "use client";
 
-import Link from "next/link";
 import { useState } from "react";
-import { buttonClass, cx } from "@/components/ui";
+import { cx } from "@/components/ui";
 import { FAQ } from "./landing-data";
 import { Container, Icon, SectionHeader } from "./section";
 
@@ -50,10 +49,6 @@ export function LandingFaq() {
             );
           })}
         </div>
-        <p className="mt-8 flex flex-wrap items-center justify-center gap-3 text-[16px] text-ink-2">
-          Still have questions?
-          <Link href="/limits" className={buttonClass("secondary", "sm")}>Read the limits</Link>
-        </p>
       </Container>
     </section>
   );
