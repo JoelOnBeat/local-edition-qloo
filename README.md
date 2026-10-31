@@ -23,7 +23,7 @@ A chain's head office cannot write eight different weekly plans by hand, and a l
 - **Cross-domain.** The same location signal returns artists (the sound brief) and brands (pairing ideas), and a place query near the store returns partner candidates ranked by affinity to the brands the chain resembles. No other source connects coffee, music and neighbouring businesses through one taste graph.
 - **Evidence you can check.** Every Qloo answer becomes an evidence row with its endpoint, parameters and scores. The agent can only cite what Qloo returned, and code recomputes the numbers before anything reaches head office.
 
-Without Qloo there is no edition: an item the agent cannot back with Qloo evidence is dropped, never shown.
+Without Qloo there is no edition: every item rests on Qloo evidence.
 
 ## The Qloo calls we make in production
 
