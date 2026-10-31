@@ -2,7 +2,7 @@ import { z } from "zod";
 import { EditionItem, GuardrailResult } from "./domain";
 import { ModelRole, ReviewFields } from "./upgrade";
 
-/** Streaming events (Server-Sent Events, `data: <json>\n\n`). Source: docs/CONTRACT.md. */
+/** Streaming events (Server-Sent Events, `data: <json>\n\n`). Source: docs/ARCHITECTURE.md. */
 
 const storeId = z.string().min(1);
 

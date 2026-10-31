@@ -92,7 +92,7 @@ function artists(p: Record<string, string>): Json {
   const anchors = p["feature.explainability"] === "true" ? list(p["signal.interests.entities"]) : [];
   const strict = ranked(pool, p, anchors);
   // Fixture lenience: a genre the block's artists do not carry narrows nothing instead of emptying the list, so a
-  // model-chosen genre can no longer leave the sound item without candidates (docs/LIVE-SMOKE.md, item 4).
+  // model-chosen genre can no longer leave the sound item without candidates (live smoke test, 29 Oct).
   if (list(p["filter.tags"]).length && !(((strict.results as Json).entities as unknown[]) ?? []).length) {
     return ranked(pool, { ...p, "filter.tags": "" }, anchors);
   }

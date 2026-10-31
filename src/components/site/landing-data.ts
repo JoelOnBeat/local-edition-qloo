@@ -2,7 +2,7 @@ import type { Brand } from "@/components/ui";
 
 /**
  * What the landing shows that is not read from the demo workspace. This week's editions, taste tags and lifts come from live Qloo
- * answers at request time (src/server/landing/sample.ts); nothing of them is written here. Measured numbers come from docs/STATUS.md and the recorded NeMo job.
+ * answers at request time (src/server/landing/sample.ts); nothing of them is written here. Measured numbers come from the live build and the recorded NeMo job.
  */
 
 /** "28 Oct" from an ISO Monday. */

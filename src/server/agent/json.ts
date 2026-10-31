@@ -13,7 +13,7 @@ export function extractJson(text: string | null): unknown {
 }
 
 /**
- * Copy and JSON calls run with thinking `off` (docs/LIVE-SMOKE.md: on Lightning a 20-word reply spends 600+ tokens
+ * Copy and JSON calls run with thinking `off` (measured live, 29 Oct: on Lightning a 20-word reply spends 600+ tokens
  * and the thinking lands in `content`). Ask a model for JSON and validate it with zod. JSON mode is unconfirmed for these models, so a
  * bad answer gets one repair turn; after that the caller sees `invalid_response`.
  */

@@ -17,7 +17,7 @@ const log = createLogger("spend-budget");
  *  - a reserved floor, $1.50 of the cap that visitors can never use: the demo workspace and the weekly cron (neither
  *    is charged here) always have room to build.
  * The charge is a pessimistic estimate per action (`ADMISSION_USD`: one 8-store build is about $0.09 and pessimistically
- * $0.20, docs/CLOUDFLARE.md), not the metered amount, because a streamed build or a Workflow step has no request left
+ * $0.20, docs/ARCHITECTURE.md), not the metered amount, because a streamed build or a Workflow step has no request left
  * to attribute its real spend to. The meter still enforces the true total. Counters live in the repo cache (KV on
  * Workers): exact inside one isolate, best effort across isolates (a burst can slip a request or two past a sub-budget;
  * the global cap and the floor are the hard limits).

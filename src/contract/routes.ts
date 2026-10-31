@@ -20,7 +20,7 @@ import { AgentEvent } from "./events";
 import type { RouteSpec } from "./route-spec";
 import { upgradeRoutes } from "./routes-upgrade";
 
-/** API route table. Source of truth: docs/CONTRACT.md. Request/response are zod schemas. */
+/** API route table. Source of truth: docs/ARCHITECTURE.md. Request/response are zod schemas. */
 
 export const MENU_IMAGE_MAX_BYTES = 5 * 1024 * 1024;
 export const MENU_IMAGE_TYPES = ["image/jpeg", "image/png", "image/webp"] as const;

@@ -36,7 +36,7 @@ const err = (code: string, message: string, storeId?: string): AgentEvent => ({ 
 
 /**
  * Build this week's edition for each store: tool loop -> evidence check -> copy -> guardrails ->
- * persisted Edition. Yields every event in docs/CONTRACT.md. Stores run one after another so the
+ * persisted Edition. Yields every event in docs/ARCHITECTURE.md. Stores run one after another so the
  * stream reads as a story; a failing store reports an error and the run carries on.
  */
 export async function* buildEditions(params: BuildParams, deps: AgentDeps): AsyncGenerator<AgentEvent> {

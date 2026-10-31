@@ -1,7 +1,7 @@
 import { MODELS } from "./models";
 
 /**
- * Reasoning control for Nemotron on Token Factory (measured live, 29 Oct 2026; see docs/LIVE-SMOKE.md).
+ * Reasoning control for Nemotron on Token Factory (measured live, 29 Oct 2026).
  * - `off`:  `reasoning_effort: "none"` plus `chat_template_kwargs.enable_thinking: false`. Either alone turns
  *           thinking off on Lightning, Super-VL and the old Super-120B (0 reasoning tokens); both together are
  *           accepted everywhere, so both are sent.
@@ -28,7 +28,7 @@ export function reasoningBody(model: string, reasoning: Reasoning | undefined): 
 
 /**
  * The setting used when a caller does not choose one. Lightning writes one-line copy: with thinking on, a
- * 20-word reply burns 300 to 600 tokens and the reasoning can spill into `content` (see LIVE-SMOKE.md), so off.
+ * 20-word reply burns 300 to 600 tokens and the reasoning can spill into `content` (measured live), so off.
  * The agent without tools (plain JSON) is off too; with tools it uses `AGENT_REASONING`. Everything else keeps the provider default.
  */
 export function defaultReasoning(model: string, hasTools: boolean): Reasoning {

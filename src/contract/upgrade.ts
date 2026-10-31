@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 /**
- * Upgrade contract primitives (docs/CONTRACT.md, "Upgrade contract"). Imported by domain.ts, so this file
+ * Upgrade contract primitives (docs/ARCHITECTURE.md, "Upgrade contract"). Imported by domain.ts, so this file
  * imports nothing from it. Every field that old stored data lacks is optional; an absent field means the
  * default noted beside it, so rows written before the upgrade still parse.
  */

@@ -19,7 +19,7 @@ describe("L9: the deployed Worker's provider modes", () => {
     expect(wranglerVars()).toMatchObject({ STORE_DRIVER: "d1", BUILD_MODE: "workflow", APP_URL: "https://localedition.pages.dev" });
   });
 
-  it("carries no Nebius control-plane credential or project (docs/NEBIUS-REST.md: Cloudflare egress gets a 522 from it)", () => {
+  it("carries no Nebius control-plane credential or project (docs/ARCHITECTURE.md: Cloudflare egress gets a 522 from it)", () => {
     const text = readFileSync(resolve(__dirname, "../../../wrangler.jsonc"), "utf8");
     const vars = wranglerVars();
     expect(Object.keys(vars).filter((k) => /^NEBIUS_(SA|PROJECT)/.test(k))).toEqual([]);

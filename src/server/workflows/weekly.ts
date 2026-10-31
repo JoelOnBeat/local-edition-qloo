@@ -11,7 +11,7 @@ const log = createLogger("weekly");
 
 /**
  * What the weekly JobRun says about NeMo certification. The Worker never starts the Nebius job: from Cloudflare's egress the Nebius
- * control plane times out (522, docs/NEBIUS-REST.md), so certification is started on demand from a developer's CLI session
+ * control plane times out (522, docs/ARCHITECTURE.md), so certification is started on demand from a developer's CLI session
  * (`npx tsx scripts/nebius-job.ts certify eval`), and that run appears on the proof ledger as its own `manual` JobRun.
  */
 export const CERTIFY_ON_DEMAND_NOTE = "NeMo certification is pending: it runs on demand from the CLI (scripts/nebius-job.ts), not on a schedule.";

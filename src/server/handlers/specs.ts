@@ -2,7 +2,7 @@ import { z } from "zod";
 import { ItemAction, routes } from "@/contract";
 
 /**
- * Request schemas for the decisions made after the data-path review (docs/CONTRACT.md). They extend the
+ * Request schemas for the decisions made after the data-path review (docs/ARCHITECTURE.md). They extend the
  * contract's own schemas, so anything the contract already requires still applies; a field added here
  * is simply read from the body instead of being stripped.
  */

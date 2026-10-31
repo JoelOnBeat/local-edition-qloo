@@ -7,7 +7,7 @@ export interface TokenProvider {
   getToken(opts?: { forceRefresh?: boolean }): Promise<string>;
 }
 
-/** Session-only: never import this from `src/` or `worker/`. The Cloudflare edge cannot reach the Nebius control plane (docs/NEBIUS-REST.md). */
+/** Session-only: never import this from `src/` or `worker/`. The Cloudflare edge cannot reach the Nebius control plane (docs/ARCHITECTURE.md). */
 export const NEBIUS_API_BASE = "https://api.nebius.cloud";
 const TIMEOUT_MS = 20_000;
 const MAX_ERROR_BODY = 4096;

@@ -5,7 +5,7 @@ import type { Repo } from "./repo";
  * A build runs inside `waitUntil` or an SSE request, and either can be killed mid-store; the `finally`
  * that flips `drafting` to `flagged` then never runs. This is the stopgap: a `drafting` edition older
  * than five minutes (one store takes well under that) is flagged when it is read and at the start of
- * every build. The full fix is the Cloudflare Workflow phase (docs/CLOUDFLARE.md).
+ * every build. The full fix is the Cloudflare Workflow phase (docs/ARCHITECTURE.md).
  */
 export const DRAFTING_MAX_AGE_MS = 5 * 60 * 1000;
 

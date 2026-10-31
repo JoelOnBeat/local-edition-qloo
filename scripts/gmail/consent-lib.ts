@@ -16,7 +16,7 @@ export function newPkce(): Pkce {
   return { verifier, challenge: createHash("sha256").update(verifier).digest("base64url") };
 }
 
-/** The URL Gabriel opens: send-only scope, offline access (a refresh token) and a forced consent screen (Google omits the refresh token otherwise). */
+/** The URL the operator opens: send-only scope, offline access (a refresh token) and a forced consent screen (Google omits the refresh token otherwise). */
 export function consentUrl(p: { clientId: string; redirectUri: string; state: string; challenge: string; loginHint?: string }): string {
   const q = new URLSearchParams({
     client_id: p.clientId,

@@ -34,9 +34,9 @@ export interface LoopResult {
   steps: number;
 }
 
-/** Tool loop thinking: the provider default (docs/LIVE-SMOKE.md: `off` fell back to the fixed plan 2 runs in 3). */
+/** Tool loop thinking: the provider default (measured live, 29 Oct: `off` fell back to the fixed plan 2 runs in 3). */
 export const LOOP_REASONING = "default" as const;
-/** Room for the model's own reasoning plus a tool call (docs/LIVE-SMOKE.md: 1,200 cut 6 of 88 turns off mid-thought). */
+/** Room for the model's own reasoning plus a tool call (measured live, 29 Oct: 1,200 cut 6 of 88 turns off mid-thought). */
 export const LOOP_MAX_TOKENS = 3000;
 
 const RULES = `You are the edition planner for a {category} chain's store. Each week you pick, for one store, a menu special, a sound brief (artists for the room), a local partner and an event night, grounded in what the tools return about that block.

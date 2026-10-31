@@ -4,7 +4,7 @@ import type { Repo } from "../store/repo";
 
 const log = createLogger("tavily-cache");
 
-/** Tavily results live 7 days (docs/CLOUDFLARE.md): a week's events never need a second paid call. */
+/** Tavily results live 7 days (docs/LIMITS.md): a week's events never need a second paid call. */
 export const TAVILY_CACHE_TTL_SECONDS = 7 * 24 * 3600;
 
 /** The slice of the repo's TTL cache (KV on Workers) that Tavily needs. Tests pass `memoryCache()`. */

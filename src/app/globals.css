@@ -246,7 +246,7 @@ p { text-wrap: pretty; }
   background: rgb(241 90 15 / 0.18);
 }
 
-/* Keyboard focus ring for buttons and links. Text fields never draw a focus border (Gabriel, 30 Oct: a selected field
+/* Keyboard focus ring for buttons and links. Text fields never draw a focus border (owner, 30 Oct: a selected field
    looks exactly like a hovered one). */
 :focus-visible:not(input, textarea, select, [contenteditable]) {
   outline: 2px solid var(--accent);

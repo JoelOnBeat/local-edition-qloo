@@ -32,7 +32,7 @@ describe("the numbers", () => {
     expect(WORKSPACE_BUDGET_USD).toBe(0.4);
     expect(IP_DAILY_BUDGET_USD).toBe(0.8);
     expect(DEMO_FLOOR_USD).toBe(1.5);
-    // A pessimistic 8-store build is $0.20 (docs/CLOUDFLARE.md), so a workspace gets two builds, not twenty.
+    // A pessimistic 8-store build is $0.20 (docs/ARCHITECTURE.md), so a workspace gets two builds, not twenty.
     expect(ADMISSION_USD.build).toBe(0.2);
     expect(Math.floor(WORKSPACE_BUDGET_USD / ADMISSION_USD.build)).toBe(2);
   });

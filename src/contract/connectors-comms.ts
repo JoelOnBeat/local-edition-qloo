@@ -90,7 +90,7 @@ export const CommsState = z.object({
 });
 export type CommsState = z.infer<typeof CommsState>;
 
-// --- Routes (the owner merges these rows into docs/CONTRACT.md). `workspace` = the le_ws cookie; `signed` = verified signature, no cookie.
+// --- Routes (the owner merges these rows into docs/ARCHITECTURE.md). `workspace` = the le_ws cookie; `signed` = verified signature, no cookie.
 
 export interface CommsRouteSpec {
   method: "GET" | "POST" | "PUT" | "PATCH" | "DELETE";

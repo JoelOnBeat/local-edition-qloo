@@ -36,7 +36,7 @@ export function parseServerEnv(source: Record<string, string | undefined>): Serv
   if (production && !PRODUCTION_DRIVERS.includes(env.STORE_DRIVER)) {
     throw new HttpError(503, "config_error", "The server is misconfigured: STORE_DRIVER must be kv or d1 in production.");
   }
-  // Production Qloo is live-only (Gabriel, 30 Oct): whatever QLOO_MODE says, replay and fixture are unreachable. No key means calls fail with
+  // Production Qloo is live-only (owner decision, 30 Oct): whatever QLOO_MODE says, replay and fixture are unreachable. No key means calls fail with
   // `qloo_unavailable`; they never fall back to recorded or sample answers.
   return production ? { ...env, QLOO_MODE: "live" } : env;
 }

@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 import type { ShownError } from "../lib/use-async";
 
-/** Unstyled building blocks for the test screens. Gabriel's visual track replaces the screens; the hooks stay. */
+/** Unstyled building blocks for the test screens. The visual track replaces the screens; the hooks stay. */
 
 export function ErrorLine({ error, testId = "error" }: { error: (ShownError & { retryAfterSeconds?: number }) | undefined; testId?: string }) {
   if (!error) return null;

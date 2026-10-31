@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { EditionReview, GuardrailChecker, ItemVerification, JobMode, TieInTriage } from "./upgrade";
 
-/** Domain types for Local Edition. Source of truth: docs/CONTRACT.md. */
+/** Domain types for Local Edition. Source of truth: docs/ARCHITECTURE.md. */
 
 export const isoDateTime = z.iso.datetime({ offset: true });
 export const isoDate = z.iso.date();

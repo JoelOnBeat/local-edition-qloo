@@ -3,7 +3,7 @@ import type { D1Like } from "../platform/types";
 
 /**
  * The provider cache (Qloo profiles, anchor searches, Tavily results) behind the repo's cacheGet/cachePut.
- * docs/CLOUDFLARE.md puts it in KV (TTL for free, reads are cheap); with no KV bound it falls back to a
+ * docs/ARCHITECTURE.md puts it in KV (TTL for free, reads are cheap); with no KV bound it falls back to a
  * D1 table so local runs and tests need nothing else.
  */
 export interface CacheBackend {

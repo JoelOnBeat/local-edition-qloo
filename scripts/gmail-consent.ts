@@ -1,5 +1,5 @@
 /**
- * One-time Gmail consent for the sign-in code sender (CODE_SENDER=gmail), run on Gabriel's machine:
+ * One-time Gmail consent for the sign-in code sender (CODE_SENDER=gmail), run on the operator's machine:
  *
  *   npx tsx scripts/gmail-consent.ts
  *

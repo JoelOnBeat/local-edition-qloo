@@ -1,7 +1,7 @@
 import type { Evidence, EvidenceMetrics } from "@/contract";
 import type { QlooCall } from "./client";
 
-/** Evidence objects per docs/CONTRACT.md: endpoint path only, params never carry a key. */
+/** Evidence objects per docs/ARCHITECTURE.md: endpoint path only, params never carry a key. */
 
 const SECRET_PARAM = /^(api[-_]?key|key|token|access[-_]?token|auth|authorization|signature|sig|secret|x-api-key)$/i;
 

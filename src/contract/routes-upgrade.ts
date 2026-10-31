@@ -4,7 +4,7 @@ import { AgentEvent } from "./events";
 import type { RouteSpec } from "./route-spec";
 import { EvalResult } from "./upgrade";
 
-/** Routes the upgrade adds (docs/CONTRACT.md, "Upgrade contract"). Spread into `routes` by routes.ts. */
+/** Routes the upgrade adds (docs/ARCHITECTURE.md, "Upgrade contract"). Spread into `routes` by routes.ts. */
 
 const id = z.string().min(1).max(64);
 /** HMAC-SHA256 (hex) of the raw request body (empty for GET), keyed by LE_JOB_SECRET. Same header as /api/jobs/monday. */
