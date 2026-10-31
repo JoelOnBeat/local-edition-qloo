@@ -55,3 +55,6 @@ __pycache__/
 .pytest_cache/
 .venv/
 .dev.vars*
+
+# env example (names only, no values)
+!.env.example
