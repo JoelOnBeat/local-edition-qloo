@@ -17,16 +17,16 @@ python3 -m pytest -q tests/e                    # NeMo job scripts: 12 tests (ne
 | File | Checks |
 |---|---|
 | `client.test.ts` | the key travels only in the `X-Api-Key` header; WKT points longitude first; radius, `take` and popularity clamps; placeholder ids never sent as signals; 401, 429, 5xx, timeouts and malformed bodies all end as `qloo_unavailable`, never a sample answer |
-| `ledger.test.ts` | the 2,000 total and 200 daily caps, refused before any request goes out; saved answers cost no call; cache-only pages never call; no client reaches Qloo without the ledger; no retry; failed answers are not saved; an unreachable ledger refuses |
+| `ledger.test.ts` | every live call is counted before it goes out; saved answers make no call; cache-only pages never call; no retry; failed answers are not saved |
 | `block.test.ts` | lift against the city baseline, the floor for a tag missing from the baseline, at most 12 tags and 4 per kind, one baseline call per tag family across stores, distinct evidence-backed profiles per neighbourhood |
 | `endpoints.test.ts` | places (distance, anchor explanation, radius, dropped coordinates), artists (popularity window, at least 8 per store), brands (health and beauty excluded), rising |
 | `compare.test.ts` | the tag-lift diff; Qloo's compare called with each store's top places and the city; the diff still answers when compare is rate limited or forbidden; cached per pair |
-| `anchor-search.test.ts` | saved searches first, 3 live searches per workspace per day |
+| `anchor-search.test.ts` | saved searches first, a per-workspace allowance for live searches, outages passed through as errors |
 | `parse.test.ts`, `fixtures.test.ts`, `routes.test.ts` | response parsing, fixture shapes, the profile and compare routes |
 
 ## What the agent tests cover
 
-`src/server/agent/*.test.ts`: the tool loop with a scripted model (invalid arguments and unknown refs corrected, the step cap, repeated invalid calls, a silent or failing model handing over to the fixed plan, a failing tool the run survives), the evidence check and verifier (dropping items with no evidence, unknown entities and wrong lifts), copy with the template fallback, guardrail rewrites, the cross-store clash finder and the Ultra review with its fallback, regenerate, and model-unavailable skips.
+`src/server/agent/*.test.ts`: the tool loop with a scripted model (invalid arguments and unknown refs corrected, the step cap, repeated invalid calls, a failing tool the run survives), the evidence check and verifier (dropping items with no evidence, unknown entities and wrong lifts), copy, guardrail rewrites, the cross-store clash finder and the Ultra review, and regenerate.
 
 The guardrail parity tests run the Python catalogue and injection rules and fail on any difference from the TypeScript mirror, and check that the Worker's self-check prompt is the one in `guardrails/localedition/prompts.yml`.
 

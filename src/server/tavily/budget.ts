@@ -8,7 +8,7 @@ import type { TavilyCache } from "./cache";
 const log = createLogger("tavily-budget");
 
 /**
- * Tavily credit budget (docs/LIMITS.md): ONE free key shared, so Local Edition has ONE global
+ * Tavily credit budget (docs/ARCHITECTURE.md): ONE free key shared, so Local Edition has ONE global
  * ledger, not a per-workspace one (workspaces are unlimited, so a per-workspace cap caps nothing): a hard total of
  * 80 credits through 15 Dec and a daily slice of 10 (one full 8-store weekly build), reserved before every live call. On Workers the ledger is the
  * TavilyBudgetDO (atomic across isolates). Without that binding (dev, tests) it is the repo cache behind a

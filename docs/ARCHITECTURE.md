@@ -32,7 +32,7 @@ flowchart LR
 | Guardrails | `src/server/guardrails/`, `guardrails/`, `jobs/` | Live TypeScript mirror plus Lightning self-check; the NeMo Guardrails library in a Nebius job. |
 | Builds | `src/server/workflows/` | `EditionBuild`: one retried step per store, events written to D1 and tailed over Server-Sent Events, so a dropped connection replays what it missed. `WeeklyRebuild`: the Monday cron rebuilds the demo workspace. |
 | Storage | `src/server/store/`, `migrations/` | One repository interface with D1 (production), KV, file and memory drivers. Every visitor row carries `workspace_id`; expired visitor workspaces are purged by the weekly cron. |
-| Connectors | `src/server/connectors/` | Square (menu import, publish a special, sales read-back, signed webhooks), Slack (digest with Approve and Regenerate buttons), Gmail/Outlook through Composio (staff card by mail, replies become signals), a private `.ics` calendar feed per store. Only the calendar feed is live; see [LIMITS.md](LIMITS.md). |
+| Connectors | `src/server/connectors/` | A private `.ics` calendar feed per store with its event night. The folder also holds connector modules for Square, Slack and Gmail/Outlook (through Composio). |
 | Accounts | `src/server/auth/` | Email and password (PBKDF2), optional emailed sign-in codes, guest sessions for "Try the sample chain". |
 
 ## Data model (short)
@@ -47,7 +47,7 @@ Defined in `src/contract/domain.ts`.
 
 ## Streamed events
 
-A build or regenerate streams `AgentEvent`s (`src/contract/events.ts`): `run_started`, `store_started`, `tool_call`, `tool_result`, `item_drafted`, `guardrail`, `step_metrics` (model, tokens, cost per call), `review`, `progress`, `store_done`, `run_done`, and `error` (with codes such as `item_dropped`, `step_skipped`, `model_unavailable`, `spend_cap`).
+A build or regenerate streams `AgentEvent`s (`src/contract/events.ts`): `run_started`, `store_started`, `tool_call`, `tool_result`, `item_drafted`, `guardrail`, `step_metrics` (model, tokens and cost per call), `review`, `progress`, `store_done`, `run_done`, and `error` (with codes such as `item_dropped`, `step_skipped`, `model_unavailable`, `spend_cap`).
 
 ## Main routes
 
@@ -63,9 +63,8 @@ A build or regenerate streams `AgentEvent`s (`src/contract/events.ts`): `run_sta
 | `PATCH /api/editions/:id/items/:itemId` | approve, reject or edit (`If-Match` version required; edits are re-checked by guardrails) |
 | `POST /api/editions/review` | the chain review (SSE) |
 | `GET /api/editions/:id/card`, `GET /api/card/:token` | staff card, and its public view once approved |
-| `GET /api/proof` | job runs, eval, models per step, cost per edition, reviews |
-| `GET /api/limits` | evidence drops, coverage gaps, Qloo and Tavily ledgers, rate limits, budgets |
-| `GET /api/status` | provider modes and spend |
+| `GET /api/status` | provider modes |
+| `GET /api/runs` | the workspace's build runs and their events (the Runs view) |
 | `POST /api/jobs/*` | signed (HMAC) job routes: the Monday build trigger and NeMo job results |
 
 ## Schedules

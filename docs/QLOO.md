@@ -12,22 +12,15 @@ Qloo is the product's source of truth about each store's block. This page lists 
 6. [Search: the chain's taste anchors](#5-search-the-chains-taste-anchors)
 7. [Compare: two stores side by side](#6-compare-two-stores-side-by-side)
 8. [Rising (agent's choice)](#7-rising-agents-choice)
-9. [What we do not use](#what-we-do-not-use)
-10. [The evidence model](#the-evidence-model)
-11. [Cache, ledger and failure handling](#cache-ledger-and-failure-handling)
-12. [Privacy](#privacy)
+9. [The evidence model](#the-evidence-model)
+10. [Caching and failure handling](#caching-and-failure-handling)
+11. [Privacy](#privacy)
 
 ## The client
 
 `src/server/qloo/client.ts`. Host `https://hackathon.api.qloo.com`, `GET` with query parameters, key in the `X-Api-Key` header (never in a URL, log, cache key or evidence row). Locations are WKT with longitude first: `POINT(-73.95712 40.71780)`.
 
-Every live call goes through the same gate, in this order:
-
-1. Look up the saved answer in KV (`qloo:resp:v2:<sha256 of path and sorted params>`). A hit returns at once, costs nothing, and is labelled `cache`.
-2. Reserve one call on the global ledger (a Durable Object). If a cap is spent the call is refused before it leaves.
-3. Wait for one of 4 in-flight slots per isolate (the key allows 10 requests a second; a block profile fans out to 7 queries).
-4. Send, with a 20-second timeout and no retry (a retry is another billed call).
-5. Save the answer in KV for 14 days with the time Qloo gave it, and return it labelled `live`.
+Every call first looks for a saved answer in KV (`qloo:resp:v2:<sha256 of path and sorted params>`), labelled `cache`. Otherwise it goes to Qloo with a 20-second timeout, and the answer is saved with the time Qloo gave it and labelled `live`.
 
 Production is **live-only** (`src/server/qloo/mode.ts`): the replay and fixture modes used by unit tests and local dev cannot be reached on the deployed Worker, whatever `QLOO_MODE` says.
 
@@ -60,7 +53,7 @@ The city is asked as "New York City" because "New York" resolves to the state.
 
 **What it decides.** The block's character in one list. `menu_match` embeds the cuisine and flavour tags against the chain's own menu to pick the special; `places_near` can filter partners by these tags; music tags steer `artists_local`; ambience and occasion tags shape the event night and the copy.
 
-**If the tag query is not enabled for the key** (HTTP 403), the profile falls back to the tags carried by restaurants within 800 m (`filter.type=urn:entity:place`, `filter.location`, `filter.location.radius=800`, `filter.tags=urn:tag:genre:place:restaurant`), weighted by affinity and compared with the same query city-wide.
+**If the tag query is not enabled for the key** (HTTP 403), the profile is built from the tags carried by restaurants within 800 m (`filter.type=urn:entity:place`, `filter.location`, `filter.location.radius=800`, `filter.tags=urn:tag:genre:place:restaurant`), weighted by affinity and compared with the same query city-wide.
 
 ## 2. Places near the store: the local partner
 
@@ -96,7 +89,7 @@ Places use a hard location filter (`filter.location`), not a location signal: a 
 | `filter.exclude.entities` | artists to avoid on a regenerate |
 | `feature.explainability` | `true` when anchors are present |
 
-**What it decides.** The artists for the in-store sound brief (artists, never tracks). A brief needs at least 8 artists; with fewer it is dropped. A genre filter that leaves too few is topped up from the unfiltered list.
+**What it decides.** The artists for the in-store sound brief (artists, never tracks). A brief lists 8 to 15 artists. A genre filter that leaves too few is topped up from the unfiltered list.
 
 ## 4. Brands by location: pairing ideas
 
@@ -123,7 +116,7 @@ Places use a hard location filter (`filter.location`), not a location signal: a 
 | `types` | `urn:entity:brand` |
 | `take` | 8 on the setup page, 3 when resolving a known name |
 
-**What it decides.** Which real brands the chain resembles (for the sample chain, Blue Bottle Coffee and others). Their entity ids become `signal.interests.entities` for the place, artist and rising queries, which is how the chain's identity reaches every recommendation. Search answers are saved for 14 days. On top of the global ledger, each workspace may make 3 live searches a day; saved searches always work.
+**What it decides.** Which real brands the chain resembles (for the sample chain, Blue Bottle Coffee and others). Their entity ids become `signal.interests.entities` for the place, artist and rising queries, which is how the chain's identity reaches every recommendation. Search answers are saved for 14 days.
 
 ## 6. Compare: two stores side by side
 
@@ -142,18 +135,13 @@ Places use a hard location filter (`filter.location`), not a location signal: a 
 | `model` | `descriptive` |
 | `take` | 20 |
 
-**What it decides.** The "shared taste" evidence row shown with the diff. If Qloo's compare cannot answer, the diff still stands and the screen shows it without that row.
+**What it decides.** The "shared taste" evidence row shown with the diff.
 
 ## 7. Rising (agent's choice)
 
 `src/server/qloo/rising.ts`. Agent tool: `rising`. The model decides per store whether to call it, so not every edition uses it.
 
 The same place or artist query is run twice, with `bias.trends=off` and `bias.trends=high`; an entity that climbs at least 5 ranks (or appears only in the trend-weighted run) is "rising in Qloo's population data". For artists only, `/v2/trending` (`filter.type=urn:entity:artist`, `signal.interests.entities`, `filter.start_date`, `filter.end_date`, 12 weeks) adds global momentum. Qloo answers 400 for places on `/v2/trending`, so places never call it. The prompt forbids the model from saying anything is "rising on this street".
-
-## What we do not use
-
-- **Heatmaps, demographics, audiences.** `src/server/qloo/heatmap.ts` and client methods for `/v2/audiences` and `/v2/tags` exist in the code, but no screen or step calls them in production. We make no claim about them.
-- **Personal data.** None is sent (see [Privacy](#privacy)).
 
 ## The evidence model
 
@@ -175,30 +163,17 @@ Every Qloo answer that informs an item becomes an `Evidence` row (`src/server/ql
 
 The evidence drawer on every item shows these rows. Before an item reaches head office, code checks it against the run's own Qloo payload (`src/server/agent/verify.ts`):
 
-1. **No evidence, no item.** An item whose evidence ids are not in the run is dropped. A sound brief with fewer than 8 artists is dropped.
+1. **No evidence, no item.** An item without Qloo evidence from this run is not shown.
 2. **Entities must exist.** Every entity the item cites (its place, its artists, the entities on its evidence rows) must be one a Qloo tool returned in this run. An event tie-in must be a listing Tavily returned.
 3. **Lifts must recompute.** Every cited lift is recomputed as store affinity minus the saved city baseline, the same formula as the block profile, within 0.02.
 
-Dropped items are counted and listed on `/limits` ("droppedForEvidence", and a per-store gap line such as "Park Slope: this week's edition has no special"). The app never fills a gap with an unbacked item.
-
 A visitor's sample workspace copies only editions whose Qloo evidence is all `live` or `cache` (`src/server/sample/live-editions.ts`).
 
-## Cache, ledger and failure handling
+## Caching and failure handling
 
-| | Where | Rule |
-|---|---|---|
-| Response cache | KV, key `qloo:resp:v2:<sha256>` | Real Qloo answers only, 14 days. Editions are built weekly and judges read stored ones. |
-| Derived caches | KV through the repo | City baselines 24 h, block profiles and compare results 6 h, brand searches 14 days. Built only from live or saved answers. |
-| Call ledger | Durable Object instance `qloo` (`src/server/qloo/ledger.ts`) | At most 2,000 live calls through 15 Dec and 200 a day, app-wide, reserved before each call, never refunded. Read by `/api/limits`. |
-| Per-workspace search | KV counter | 3 live brand searches per workspace per day. |
-| Concurrency | per isolate | 4 calls in flight. |
+Qloo answers are cached in KV for 14 days (editions are built weekly, and a judge reads the exact answer an edition was built from). Derived results are cached too: city baselines for a day, block profiles and compare results for 6 hours, brand searches for 14 days, all built only from live or saved answers.
 
-**Failures.** A call that cannot be made or answered raises one of two codes; the API returns `{ error, code }` and the screen shows the message with a way to try again:
-
-- `qloo_unavailable` (503): no key, ledger unreadable, timeout, upstream error. "Qloo did not answer in time. Try again."
-- `qloo_budget` (429): the total or daily cap is spent. "Live Qloo calls have used today's share of their credits. Nothing was called. Try again tomorrow."
-
-A block profile with any family failing for an outage fails as a whole (and is not cached), so a half profile is never saved. A 403 for one family switches to the place-based fallback. Inside a build, a failing tool is reported in the run log and the item it would have fed is dropped by the evidence check.
+When Qloo cannot answer, the call raises `qloo_unavailable`; the API returns `{ error, code }` and the screen shows the message with a retry ("Qloo did not answer in time. Try again."). No sample answer stands in. A block profile is saved only when every tag family answered, so a partial profile is never cached. A 403 for the tag query switches to the place-based profile described in section 1. Inside a build, a failing tool shows in the run log.
 
 ## Privacy
 

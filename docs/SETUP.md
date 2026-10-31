@@ -25,7 +25,7 @@ Two modes:
 
 Open http://localhost:3000 and press **Try the sample chain**.
 
-To call real providers locally, put the keys in `.env.local` and set `QLOO_MODE=live`, `TF_MODE=live`, `TAVILY_MODE=live`. Live calls spend real credits: the Qloo ledger (2,000 total, 200 a day) and the Token Factory spend cap (`SPEND_CAP_USD`, default $5) apply locally too.
+To call real providers locally, put the keys in `.env.local` and set `QLOO_MODE=live`, `TF_MODE=live`, `TAVILY_MODE=live`. Live calls use your own provider credits; `SPEND_CAP_USD` caps Token Factory spend.
 
 To run the Worker build locally with D1, KV, R2, Durable Objects and Workflows simulated:
 
@@ -52,7 +52,7 @@ Every name is in [`.env.example`](../.env.example) with a one-line purpose. In s
 | `NEXT_PUBLIC_DATA_MODE` | `mock` for the UI on mock data. |
 | `LE_DATA_DIR`, `LE_RECORDINGS_DIR`, `LOG_LEVEL` | Local folders and log level. |
 | `CODE_SENDER`, `GMAIL_*` | Optional emailed sign-in codes. |
-| `SQUARE_*`, `SLACK_*`, `COMPOSIO_*`, `COMMS_*` | Optional connectors (not connected on the live demo). |
+| `SQUARE_*`, `SLACK_*`, `COMPOSIO_*`, `COMMS_*` | Optional connector modules (Square, Slack, Gmail/Outlook). |
 
 `.env*` files are gitignored except `.env.example`.
 
@@ -61,7 +61,7 @@ Every name is in [`.env.example`](../.env.example) with a one-line purpose. In s
 The sample chain, **Kettle & Kiln** (eight stores at real New York corners, its menu and its three anchor brands), is code: `src/server/sample/chain.ts`, with the menu board in `fixtures/sample/` and a store CSV in `fixtures/sample/stores.csv`. Nothing needs to be imported.
 
 - **Demo workspace** (`demo`): created from the sample chain on first use by the weekly build (`ensureDemoWorkspace` in `src/server/session.ts`). Its editions are the ones the scheduled build makes.
-- **Visitor workspace**: **Try the sample chain** (`POST /api/auth/guest`) creates a private workspace with a fresh copy of the sample chain in one batch, then copies each store's newest finished edition and staff card from the demo workspace. In production only editions whose Qloo evidence is all live or saved-live are copied (`src/server/sample/live-editions.ts`); a store without one reads "No edition yet".
+- **Visitor workspace**: **Try the sample chain** (`POST /api/auth/guest`) creates a private workspace with a fresh copy of the sample chain in one batch, then copies each store's newest finished edition and staff card from the demo workspace. In production only editions whose Qloo evidence is all live or saved-live are copied (`src/server/sample/live-editions.ts`).
 - **Locally** the same code runs against `.data/store.json`. The demo workspace starts empty, so build editions from the app (**Build this week's editions**); without keys the build runs on the fixtures.
 - **In production**, the first editions come from the weekly build. To run it before the first Monday, either send a signed `POST /api/jobs/monday` (HMAC with `LE_JOB_SECRET`, scheme in `src/server/jobs/job-auth.ts`) or trigger the Workflow:
 
